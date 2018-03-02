@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright  1997 - 2015 by IXIA                                            #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    03/12/2015 - Subhradip Pramanik - created sample                          #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -76,11 +73,7 @@
 #        Step 10.Stop of L2-L3 traffic.                                         #
 #        Step 11.Stop of all protocols.                                         #
 #################################################################################
-# Ixia Software Used to develop the script:                                     #
-#    IxOS      8.00 EA                                                          #
-#    IxNetwork 8.00 EA                                                          #
-#                                                                               #
-#################################################################################
+
 
 # edit this variables values to match your setup
 namespace eval ::ixia {

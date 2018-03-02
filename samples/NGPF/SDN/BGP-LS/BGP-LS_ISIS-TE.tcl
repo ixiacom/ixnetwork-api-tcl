@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           # 
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    11/24/2016 - Rupam Paul - created sample                                  #
 #                                                                              #
 ################################################################################
 
@@ -61,10 +57,6 @@
 #    5. Check Protocol Stats                                                   #
 #    6. Check BGPLS Learned Info	                                           #
 #    7. Stop all protocols.                                                    #
-#                                                                              #
-# Ixia Softwares:                                                              #
-#    IxOS      8.20 EA                                                         #
-#    IxNetwork 8.20 EA                                                         #
 #                                                                              #
 ################################################################################
 

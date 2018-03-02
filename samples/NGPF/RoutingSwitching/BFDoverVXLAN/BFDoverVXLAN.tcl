@@ -47,8 +47,8 @@
 #                                                                              #
 # Description:                                                                 #
 #    This script intends to demonstrate how to use NGPF BFDv4 API              #
-#    It will create 2 BFDv4 topologies, it will start the emulation and        #
-#    than it will retrieve and display few statistics                          #
+#    It will create 2 BFDv4 topologies over VXLAN, it will start the emulation #
+#    and than it will retrieve and display few statistics                      #
 ################################################################################
 
 # edit this variables values to match your setup
@@ -152,15 +152,45 @@ ixNet setMultiAttr [ixNet getAttr $ip2 -resolveGateway]/singleValue -value true
 ixNet commit
 
 ###########################################################################
+#Add and Configure VXLAN Interface 
+###########################################################################
+puts "Add VXLAN Interface"
+ixNet add $ip1 vxlan
+ixNet add $ip2 vxlan
+ixNet commit
+
+set vxlan1 [ixNet getList $ip1 vxlan]
+set vxlan2 [ixNet getList $ip2 vxlan]
+set vni2 [ixNet getAttr $vxlan2 -vni]
+set ipv4multicast2 [ixNet getAttr $vxlan2 -ipv4_multicast]
+ixNet setAttr $vni2/singleValue -value 1000
+ixNet setAttr $ipv4multicast2/singleValue -value 225.0.1.1
+ixNet commit
+
+###########################################################################
 #Add and Configure BFDv4 Interface 
 ###########################################################################
 puts "Add BFDv4 Interface"
-ixNet add $ip1 bfdv4Interface
-ixNet add $ip2 bfdv4Interface
+ixNet add $vxlan1 bfdv4Interface
+ixNet add $vxlan2 bfdv4Interface
 ixNet commit
 
-set bfdv41 [ixNet getList $ip1 bfdv4Interface]
-set bfdv42 [ixNet getList $ip2 bfdv4Interface]
+set bfdv41 [ixNet getList $vxlan1 bfdv4Interface]
+set bfdv42 [ixNet getList $vxlan2 bfdv4Interface]
+set bfdv4session1 [ixNet getList $bfdv41 bfdv4Session]
+set bfdv4session2 [ixNet getList $bfdv42 bfdv4Session]
+set remoteIP1 [ixNet getAttr $bfdv4session1 -remoteIp4]
+set remoteIP2 [ixNet getAttr $bfdv4session2 -remoteIp4]
+set remoteMac1 [ixNet getAttr $bfdv4session1 -remoteMac]
+set remoteMac2 [ixNet getAttr $bfdv4session2 -remoteMac]
+
+ixNet setAttr $remoteIP1/singleValue -value 20.20.20.1
+ixNet setAttr $remoteIP2/singleValue -value 20.20.20.2
+ixNet setAttr $remoteMac1/singleValue -value 18:03:73:C7:6C:01
+ixNet setAttr $remoteMac2/singleValue -value 18:03:73:C7:6C:B1
+
+ixNet commit
+
 
 set txInterval1 [ixNet getAttr $bfdv41 -txInterval]
 set txInterval2 [ixNet getAttr $bfdv42 -txInterval]
@@ -172,30 +202,6 @@ ixNet setAttr $txInterval1/singleValue -value 2000
 ixNet setAttr $txInterval2/singleValue -value 2000
 ixNet setAttr $minRxInterval1/singleValue -value 2000
 ixNet setAttr $minRxInterval2/singleValue -value 2000
-ixNet commit
-
-############################################################################
-#Add and Configure OSPFv2
-############################################################################
-puts "Adding OSPFv2 on Ipv4"
-ixNet add $ip1 ospfv2
-ixNet add $ip2 ospfv2
-ixNet commit
-
-set ospfv21 [ixNet getList $ip1 ospfv2]
-set ospfv22 [ixNet getList $ip2 ospfv2]
-
-puts "Configuring OSPFv2"
-set networkType1 [ixNet getAttr $ospfv21 -networkType]
-set networkType2 [ixNet getAttr $ospfv22 -networkType]
-set enableBFD1 [ixNet getAttr $ospfv21 -enableBfdRegistration]
-set enableBFD2 [ixNet getAttr $ospfv22 -enableBfdRegistration]
-
-ixNet setAttr $networkType1/singleValue -value pointtopoint
-ixNet setAttr $networkType2/singleValue -value pointtopoint
-ixNet setAttr $enableBFD1/singleValue -value true
-ixNet setAttr $enableBFD2/singleValue -value true
-
 ixNet commit
 
 #############################################################################

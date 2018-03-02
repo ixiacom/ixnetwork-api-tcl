@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2016 by IXIA                                           #  
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    15/12/2016 - Poulomi Chatterjee - created sample                          #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -60,10 +57,6 @@
 #       - eBGP Peer to configure Multi Hop BGP session.                        # 
 #    3. Only one side configuration is provided.                               #
 #    4. Traffic configuration will be similar to L3VPN scenario.               #
-# Ixia Software:                                                               #
-#    IxOS      8.20 EA                                                         #
-#    IxNetwork 8.20 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # Script Starts

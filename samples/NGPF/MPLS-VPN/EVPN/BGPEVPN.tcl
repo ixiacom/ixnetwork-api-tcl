@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    01/12/2015 - Poulomi Chatterjee - created sample                          #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -63,10 +60,6 @@
 #    7. Retrieve L2-L3 traffic stats.                                          #
 #    8. Stop L2-L3 traffic.                                                    #
 #    9. Stopallprotocols.                                                      #                                                                                
-# Ixia Software:                                                               #
-#    IxOS      8.00 EA                                                         #
-#    IxNetwork 8.00 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # Script Starts

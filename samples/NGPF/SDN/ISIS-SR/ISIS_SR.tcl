@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           # 
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    08/01/2016 - Poulomi Chatterjee - created sample                          #
 #                                                                              #
 ################################################################################
 
@@ -67,14 +63,10 @@
 #    11. Retrieve protocol learned info in Port1 after On the Fly change.      #
 #    12. Change IPv4 & V6 PseudoNode Routes addresses in Simulated Topology    # 
 #    13. Retrieve protocol learned info in Port2 after On the Fly change.      #
-#    14. Configuring ISIS L2-L3 Traffic Item				       #
+#    14. Configuring ISIS L2-L3 Traffic Item				                   #
 #    15. Verifying all the L2-L3 traffic stats                                 #
 #    16. Stop L2-L3 traffic.                                                   #
 #    17. Stop all protocols.                                                   #
-#                                                                              #
-# Ixia Softwares:                                                              #
-#    IxOS      8.00 EA                                                         #
-#    IxNetwork 8.00 EA                                                         #
 #                                                                              #
 ################################################################################
 

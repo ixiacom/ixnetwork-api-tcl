@@ -1,12 +1,8 @@
 ﻿#!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2016 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    6/12/2016 - Raman Siddaiah - created sample                              #
 #                                                                              #
 ################################################################################
 
@@ -50,14 +46,10 @@
 ################################################################################
 #                                                                              #
 # Description:                                                                 #
-#    This script intends to demonstrate how to use NGPF OF Switch API      #
-#    It will create one OF Switch topology , it will start the emulation   #       
+#    This script intends to demonstrate how to use NGPF OF Switch API          #
+#    It will create one OF Switch topology , it will start the emulation       #       
 #    and then it will retrieve and display few statistics .                    #
 #    It will send learned info trigger  for specified match crteria            #
-# Ixia Software:                                                               #
-#    IxOS      8.20 EA                                                         #
-#    IxNetwork 8.20 EA                                                         #
-#                                                                              #
 ################################################################################
 
 

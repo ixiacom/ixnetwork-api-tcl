@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           # 
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    11/17/2016 - Rupam Paul - created sample                                  #
 #                                                                              #
 ################################################################################
 
@@ -65,10 +61,6 @@
 #    8. On the fly disable Adj-Sid in Simulated Interface.                     #
 #    9. Retrieve protocol learned info in Port1 after On the Fly change.       #
 #    10. Stop all protocols.                                                   #
-#                                                                              #
-# Ixia Softwares:                                                              #
-#    IxOS      8.20 EA                                                         #
-#    IxNetwork 8.20 EA                                                         #
 #                                                                              #
 ################################################################################
 

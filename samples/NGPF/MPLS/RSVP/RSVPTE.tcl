@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright  1997 - 2015 by IXIA                                            #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    02/02/2015 - Subhradip Pramanik - created sample                          #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -76,11 +73,6 @@
 #        Step 9. Display of L2-L3  traffic Stats                                #
 #        Step 10.Stop of L2-L3 traffic                                          #
 #        Step 11.Stop of all protocols                                          #
-#################################################################################
-# Ixia Software Used to develop the script:                                     #
-#    IxOS      6.80 EA                                                          #
-#    IxNetwork 7.40 EA                                                          #
-#                                                                               #
 #################################################################################
 
 # edit this variables values to match your setup

@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    15/02/2015 - Rupam Paul - created sample                                  #
 #                                                                              #
 ################################################################################
 
@@ -68,11 +64,6 @@
 #  11.Print Traffic Flow Statistics                                            #
 #  12.Stop Traffic                                                             #
 #  13.Stop Protocols	                                                       #
-#                                                                              #
-# Ixia Software:                                                               #
-#    IxOS      8.20 EA                                                         #
-#    IxNetwork 8.20 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # edit this variables values to match your setup

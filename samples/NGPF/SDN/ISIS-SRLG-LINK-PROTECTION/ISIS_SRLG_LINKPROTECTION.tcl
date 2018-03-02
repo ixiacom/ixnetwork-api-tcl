@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright  1997 - 2015 by IXIA                                            # 
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    10/05/2016 - Anit Ghosal - created sample                                 #
 #                                                                              #
 ################################################################################
 
@@ -72,15 +68,10 @@
 #    10. On the fly uncheck "Enable SRLG"  emulated router in Device group2 &  #
 #        check  "Enable SRLG" for all simulated Routers behind device group1   #
 #    11. On the fly do change on Link type i.e  make enhanced:true and         #
-#       unprotected:false for emulated router in Device group1 & disable"Enable# 
-#       Link Protection" for first 2 simulated Routers behind device group2    #
-#                                                                              #
+#       unprotected:false for emulated router in Device group1 & disable       # 
+#       "Enable Link Protection" for first 2 simulated Routers behind device   #
+#       group2                                                                 #
 #    12. Stop all protocols.                                                   #
-#                                                                              #
-# Ixia Softwares:                                                              #
-#    IxOS      8.01 EA                                                         #
-#    IxNetwork 8.01 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # Script Starts

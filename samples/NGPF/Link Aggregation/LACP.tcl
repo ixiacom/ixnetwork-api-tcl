@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    06/04/2015 - Sumit Deb - created sample                                   #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -67,11 +64,6 @@
 #	 10. Perform StopPDU on port1 in System1-LACP-LHS.                         # 
 #	 11. Retrieve LACP global learned info.                                    #
 #	 12. Stop All protocols.                                                   #
-#                                                                              # 
-# 	Ixia Software:                                                             #
-#    IxOS      6.90 EA                                                         #
-#    IxNetwork 7.50 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # Script Starts
