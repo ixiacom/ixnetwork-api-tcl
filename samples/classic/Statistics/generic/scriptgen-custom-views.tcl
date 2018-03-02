@@ -47,16 +47,17 @@
 ################################################################################
 #                                                                              #
 # Description:                                                                 #
-#    This script intends to demonstrate how to create a custom view            #
+#    This script intends to demonstrate how a custom view is saved and 		   #
+#	 generated using a scriptgen file								           #
 # Module:                                                                      #
 #    The sample was tested on an XMVDC16 module.                               #
 ################################################################################
 
 # edit this variables values to match your setup
 namespace eval ::ixia {
-    set ixTclServer 10.200.115.204
+    set ixTclServer 127.0.0.1
     set ixTclPort   8009
-    set ports       {{10.200.115.151 3 11} {10.200.115.151 3 12}}
+    set ports       {{10.215.170.111 1 11} {10.215.170.111 1 12}}
 }
 
 puts "Load ixNetwork Tcl API package"
@@ -66,7 +67,7 @@ puts "Connect to IxNetwork Tcl server"
 ixNet connect $::ixia::ixTclServer -port $::ixia::ixTclPort -version 6.30 –setAttribute strict
 
 puts "Load the IxNetwork config"
-ixNet exec loadConfig [ixNet readFrom config.custom-views.ixncfg]
+ixNet exec loadConfig [ixNet readFrom config.traffic-basic.ixncfg]
 set vPorts [ixNet getList [ixNet getRoot] vport]
 
 puts "Assigning virtual ports to real ports"
@@ -78,22 +79,40 @@ ixNet exec startAllProtocols
 puts "Waiting for 30 sec"
 after 30000
 
+puts "Applying the traffic"
+ixNet setAttr [ixNet getRoot]/traffic -refreshLearnedInfoBeforeApply true
+ixNet exec apply [ixNet getRoot]/traffic
+
+puts -nonewline "Starting the traffic "
+ixNet exec start [ixNet getRoot]/traffic
+
+set count 0
+while { [ixNet getAttr [ixNet getRoot]/traffic -state] != "started" } {
+    puts -nonewline "."
+    after 1000
+    incr count
+    if { $count > 90 } {
+        error "Waited for 90 sec, Traffic still not in started state !"
+    }
+}
+puts "."
+
+puts "Leting the traffic run for 30 sec"
+after 30000
+
 puts "Add the custom view"
 set custom_view [ixNet add [ixNet getRoot]/statistics view]
-ixNet setAttr $custom_view -caption "protocols-routing"
-ixNet setAttr $custom_view -type layer23ProtocolRouting
+ixNet setAttr $custom_view -caption "custom-view-traffic"
+ixNet setAttr $custom_view -type layer23TrafficPort
 ixNet setAttr $custom_view -visible true
 ixNet commit
 set custom_view [lindex [ixNet remapIds $custom_view] 0]
 
-puts "Configure the protocol filter"
-set availableProtocolFilter [ixNet getList $custom_view availableProtocolFilter]
-ixNet setAttr $custom_view/layer23ProtocolRoutingFilter -protocolFilterIds $availableProtocolFilter
-ixNet commit
-
-puts "Configure the port filter"
+puts "Retrieve relevant filters for the view"
 set availablePortFilter [ixNet getList $custom_view availablePortFilter]
-ixNet setAttr $custom_view/layer23ProtocolRoutingFilter -portFilterIds $availablePortFilter
+
+puts "Configure the filter selection area"
+ixNet setAttr $custom_view/layer23TrafficPortFilter -portFilterIds $availablePortFilter
 ixNet commit
 
 puts "Enable the stats columns to be disaplyed"
@@ -107,7 +126,111 @@ puts "Get the custom view going and start retrieveing stats"
 ixNet setAttribute $custom_view -enabled true
 ixNet commit
 
-puts "TEST END."
+set language "tcl"
+set ext "tcl"
+set type "ixNet"
+set interp "tclsh"
+set location "C:\\IxNetworkExports\\"
+set pc_time [clock format [clock sec] -format "%Y_%m_%d_%H_%M"]
+set fileName "_ScriptGen_${type}.tcl"
+set path "$location\\$pc_time$fileName"
+
+set objRef [ixNet getRoot]globals/scriptgen
+
+ixNet setMultiAttribute $objRef \
+			-serializationType $type \
+			-language $language \
+			-includeConnect true \
+			-linePerAttribute true
+ixNet setMultiAttribute $objRef/ixNetCodeOptions \
+			-includeDefaultValues false \
+			-includeTraffic true \
+			-includeTrafficFlowGroup true \
+			-includeTrafficStack true \
+			-includeQuickTest true \
+			-includeStatistic true \
+			-includeTestComposer false
+ixNet commit
+
+puts "Generate Low Level TCL scriptgen '$path'"
+set createDuration [time {ixNet exec generate $objRef [ixNet writeTo $path -ixNetRelative -overwrite]}]
+puts "Elapsed time to generate scriptgen $path $createDuration"; update
+
+puts "Load the Low Level TCL scriptgen file"
+catch {source "$path"} errMessage
+if { $errMessage != 0 } {
+	puts "Failed to load the Low Level TCL scriptgen file; error = $errMessage"
+} else {
+	puts "Load succeed"
+}
+
+puts "Connect to IxNetwork Tcl server"
+ixNet connect $::ixia::ixTclServer -port $::ixia::ixTclPort -version 6.30 –setAttribute strict
+
+puts "Waiting 30 sec for ports to come up"
+after 30000
+
+puts "Starting all protocols"
+ixNet exec startAllProtocols
+
+puts "Waiting for 30 sec"
+after 30000
+
+puts "Applying the traffic"
+ixNet setAttr [ixNet getRoot]/traffic -refreshLearnedInfoBeforeApply true
+ixNet exec apply [ixNet getRoot]/traffic
+
+puts -nonewline "Starting the traffic "
+ixNet exec start [ixNet getRoot]/traffic
+
+set count 0
+while { [ixNet getAttr [ixNet getRoot]/traffic -state] != "started" } {
+    puts -nonewline "."
+    after 1000
+    incr count
+    if { $count > 90 } {
+        error "Waited for 90 sec, Traffic still not in started state !"
+    }
+}
+puts "."
+
+puts "Leting the traffic run for 30 sec"
+after 30000
+
+puts "Execute ::IxScriptgen::_statistic() :"
+catch {::IxScriptgen::_statistic} errMessage4
+if { $errMessage4 ne "0" } {
+	error "Failed to execute _statistic ; error = $errMessage4"
+} else {
+	puts "Execute _statistic succeed"
+}
+
+puts "Wait 30 sec"
+after 30000
+
+set view "custom-view-traffic"
+set index [lsearch -regexp [ixNet getL [ixNet getRoot]/statistics view] "$view"]	
+if {$index== -1} {
+	error "Cannot find $view in view list !"
+
+}
+set usedView [lindex [ixNet getL [ixNet getRoot]/statistics view] $index]
+
+puts "Check if $view view is ready"
+set pageReady [ixNet getAttr $usedView/page -isReady]
+for {set i 0} {$i <= 10 && $pageReady ne "true"} {incr i} {
+	puts "Stats from $view are not ready yet"
+	puts "Wait 3 seconds and verify again"
+	after 3000
+	set pageReady [ixNet getAttr $obj/page -isReady]
+}
+
+if {$pageReady ne true} {
+	puts "Statistics from $view are not ready !"
+}
+puts "Statistics from $view are ready"
+
+puts "TEST END ."
 
 puts " "
 puts " "
@@ -116,8 +239,8 @@ puts " "
 puts "ixNet help ::ixNet::OBJ-/statistics/view"
 puts "[ixNet help ::ixNet::OBJ-/statistics/view]"
 puts " "
-puts "ixNet help ::ixNet::OBJ-/statistics/view/layer23ProtocolRoutingFilter"
-puts "[ixNet help ::ixNet::OBJ-/statistics/view/layer23ProtocolRoutingFilter]"
+puts "ixNet help ::ixNet::OBJ-/statistics/view/layer23TrafficPortFilter"
+puts "[ixNet help ::ixNet::OBJ-/statistics/view/layer23TrafficPortFilter]"
 puts " "
 puts "ixNet help ::ixNet::OBJ-/statistics/view/statistic"
 puts "[ixNet help ::ixNet::OBJ-/statistics/view/statistic]"

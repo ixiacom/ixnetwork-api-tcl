@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    27/07/2015 - Joydeep Banerjee - created sample                            #
 #                                                                              #
 ################################################################################
 
@@ -22,7 +18,7 @@
 # made by Ixia and/or by the user and/or by a third party)] shall at all times #
 # remain the property of Ixia.                                                 #
 #                                                                              #
-# Ixia does not gurantee (i) that the functions contained in the script will   #
+# Ixia does not warrant (i) that the functions contained in the script will    #
 # meet the users requirements or (ii) that the script will be without          #
 # omissions or error-free.                                                     #
 # THE SCRIPT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND AND IXIA         #
@@ -54,19 +50,15 @@
 #                                                                              #
 #    1. Create 2 interfaces with ISIS-L2/L3 enabled, each with 1 ISIS-L2/L3    #
 #       router with 2 route-ranges behind one router with 2 routes per route   #
-#	range						   	       	       #
+#	range						   	       	                                   #
 #    2. Start ISIS L2/L3 protocol.                                             #
-#    3. Retrieve ISIS L2/L3 protocol statistics			       	       #
+#    3. Retrieve ISIS L2/L3 protocol statistics			       	               #
 #    4. Retrieve ISIS L2/L3 protocol learned info.                             #
 #    5. Configure L2-L3 traffic.                                               #
 #    6. Start the L2-L3 traffic.                                               #
 #    7. Retrieve L2-L3 traffic stats.                                          #
 #    8. Stop L2-L3 traffic.                                                    #
 #    9. Stop all protocols.                                                    # 
-# Ixia Softwares:                                                              #
-#    IxOS      6.91 EA                                                         #
-#    IxNetwork 7.51 EA                                                         #
-#                                                                              #
 ################################################################################
 puts "Load ixNetwork Tcl API package"
 package req IxTclNetwork
