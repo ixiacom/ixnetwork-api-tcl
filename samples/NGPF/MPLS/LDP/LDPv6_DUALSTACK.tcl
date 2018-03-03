@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    04/09/2015 - Sumeer Kumar - created sample                                #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -74,12 +71,8 @@
 #    8. Start the L2-L3 traffic.                                               #
 #   11. Retrieve L2-L3 traffic stats.                                          #
 #   12. Stop L2-L3 traffic.                                                    #
-#   13. Stopallprotocols.                                                      #
+#   13. Stop all protocols.                                                    #
 #                                                                              #                                                                                
-# Ixia Software:                                                               #
-#    IxOS      6.90 EA                                                         #
-#    IxNetwork 7.50 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # Script Starts

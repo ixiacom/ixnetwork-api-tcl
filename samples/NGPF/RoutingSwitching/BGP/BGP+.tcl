@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    15/12/2014 - Rudra Dutta - created sample                                 #
 #                                                                              #
 ################################################################################
 
@@ -53,10 +49,6 @@
 #    This script intends to demonstrate how to use NGPF BGP+ API               #
 #    It will create 2 BGP+ topologies, it will start the emulation and         #
 #    than it will retrieve and display few statistics                          #
-# Ixia Software:                                                               #
-#    IxOS      6.80 EA                                                         #
-#    IxNetwork 7.40 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # edit this variables values to match your setup

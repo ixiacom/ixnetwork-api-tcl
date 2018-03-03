@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2016 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    21/09/2016 - Mamud Hasan - created sample                                 #
 #                                                                              #
 ################################################################################
 
@@ -69,10 +65,6 @@
 #   13. Retrieve protocol statistics                                           #
 #   14. Retrieve protocol learned info.                                        #
 #   15. Stop all protocols.                                                    #                                                                                          
-#                                                                              #
-# Ixia Softwares:                                                              #
-#    IxOS      8.10 EA (8.10.1046.6)                                           #
-#    IxNetwork 8.10 EA (8.10.1250.4)                                           #
 #                                                                              #
 ################################################################################
 

@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2014 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    06/14/2017 - Rupkatha Guha - created sample                               #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -51,10 +48,10 @@
 #                                                                              #
 # Description:                                                                 #
 #   This script intends to demonstrate how to use NGPF LDPv6 Low Level TCL API #
-#   with FEC129.               					               #
+#   with FEC129.               					                               #
 #                                                                              #
 #    1. Configuration of protocols as described in topology.                   #
-#    2. Start all protocol.                                                #
+#    2. Start all protocols.                                                   #
 #    3. Retrieve protocol statistics.                                          #
 #    4. Retrieve protocol learned info.                                        #
 #    5. Change LDP PW/VPLS labels & apply change on the fly                    #
@@ -63,11 +60,7 @@
 #    8. Start the L2-L3 traffic.                                               #
 #   11. Retrieve L2-L3 traffic stats.                                          #
 #   12. Stop L2-L3 traffic.                                                    #
-#   13. Stopallprotocols.                                                      #                                                                                
-# Ixia Software:                                                               #
-#    IxOS      8.30 EB                                                         #
-#    IxNetwork 8.30 EB                                                         #
-#                                                                              #
+#   13. Stop all protocols.                                                    #                                                                                
 ################################################################################
 
 # Script Starts

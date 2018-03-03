@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    06/04/2015 - Sumit Deb - created sample                                   #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -64,10 +61,6 @@
 #	 8. Retrieve protocol statistics and StaticLag per port statistics         #
 #    9. Retrieve StaticLag global learned info                                 #
 #	 10. Stop All protocols                                                    #
-#                                                                              # 
-# 	Ixia Software:                                                             #
-#    IxOS      6.90 EA                                                         #
-#    IxNetwork 7.50 EA                                                         #
 #                                                                              #
 ################################################################################
 

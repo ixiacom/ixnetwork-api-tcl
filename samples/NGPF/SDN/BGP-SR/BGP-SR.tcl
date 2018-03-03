@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright  1997 - 2016 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    09/06/2016 - Sumit - created sample                                 #
 #                                                                              #
 ################################################################################
 
@@ -64,10 +60,6 @@
 #    9. Stop L2-L3 traffic.                                                    #
 #   10. Stop all protocols.                                                    #
 #                                                                              # 
-# Ixia Software:                                                               #
-#    IxOS      8.10 EA                                                         #
-#    IxNetwork 8.10 EA                                                         #
-#                                                                              #
 ################################################################################
 
 # edit this variables values to match your setup

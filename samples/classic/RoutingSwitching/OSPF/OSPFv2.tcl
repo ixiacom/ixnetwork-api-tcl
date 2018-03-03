@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2015 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    19/01/2015 - Sumit Deb - created sample                                #
 #                                                                              #
 ################################################################################
 
@@ -22,7 +18,7 @@
 # made by Ixia and/or by the user and/or by a third party)] shall at all times #
 # remain the property of Ixia.                                                 #
 #                                                                              #
-# Ixia does not gurantee (i) that the functions contained in the script will   #
+# Ixia does not warrant (i) that the functions contained in the script will    #
 # meet the users requirements or (ii) that the script will be without          #
 # omissions or error-free.                                                     #
 # THE SCRIPT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND AND IXIA         #
@@ -64,11 +60,7 @@
 #    9. Start the L2-L3 traffic.                                               #
 #    10. Retrieve L2-L3 traffic stats.                                         #
 #    11. Stop L2-L3 traffic.                                                   #
-#    12. Stop all protocols.                                                   #       #                                                                              #              
-# Ixia Softwares:                                                              #
-#    IxOS      6.80 EA (6.80.1100.7)                                           #
-#    IxNetwork 7.40 EA (7.40.929.15)                                           #
-#                                                                              #
+#    12. Stop all protocols.                                                   #          
 ################################################################################
 
 # Script Starts

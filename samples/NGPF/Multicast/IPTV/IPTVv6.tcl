@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2014 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    11/01/2012 - Sumeer Kumar - created sample                                #
 #                                                                              #
 ################################################################################
 
@@ -51,12 +47,8 @@
 #                                                                              #
 # Description:                                                                 #
 #    This script intends to demonstrate how to use NGPF IPTVv6  API            #
-#    It will create IPTV in MLD Host topology, it will start the emulation and#
-#    than it will retrieve and display few statistics                          #
-# Ixia Softwares:                                                              #
-#    IxOS      6.80 EA (6.80.1100.4)                                           #
-#    IxNetwork 7.40 EA (7.40.929.8)                                            #
-#                                                                              #
+#    It will create IPTV in MLD Host topology, it will start the emulation and #
+#    then it will retrieve and display few statistics                          #
 ################################################################################
 
 # edit this variables values to match your setup

@@ -1,14 +1,11 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2017 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
 #                                                                              #
-#    Revision Log:                                                             #
-#    06/13/2017 - Ashis Nandy - created sample                                 #
-#                                                                              #
 ################################################################################
+
 
 ################################################################################
 #                                                                              #
@@ -53,7 +50,7 @@
 #    This script intends to demonstrate how to use NGPF LDP API.               #
 #                                                                              #
 #    1. It will create 2 MPLSOAM topologies with singalling protocol ldp,      # 
-#        each having an ipv4 prefixpools   				       #
+#        each having an ipv4 prefixpools   				                       #
 #        and loopback device group behind the network group(NG) with           # 
 #       loopback interface on it. A loopback device group(DG) behind network   # 
 #       group is needed to support applib traffic.                             #
@@ -71,11 +68,7 @@
 #   12. Retrieve L2-L3 traffic stats.                                          #
 #   13. Stop L2-L3 traffic.                                                    #
 #   14. Stop Application traffic.                                              #
-#   15.Stopallprotocols.                                                       #                                                                                
-# Ixia Software:                                                               #
-#    IxOS      8.30 EB (8.30.1351.14)                                          #
-#    IxNetwork 8.30 EB (8.30.1076.6)                                           #
-#                                                                              #
+#   15. Stop all protocols.                                                    #                                                                                
 ################################################################################
 
 # Script Starts

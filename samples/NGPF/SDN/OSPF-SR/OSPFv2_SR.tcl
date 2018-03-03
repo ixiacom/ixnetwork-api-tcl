@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2014 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    03/12/2015 - Chandan Mishra - created sample                              #
 #                                                                              #
 ################################################################################
 
@@ -83,10 +79,6 @@
 #   22. Stop Application traffic.                                              #
 #   23. Stop all protocols.                                                    #
 #                                                                  			   #                                                                                          
-# 	Ixia Softwares:                                                            #
-#    IxOS      8.00 EB (8.00.1201.21)                                          #
-#    IxNetwork 8.00 EB (8.00.1206.6)                                           #
-#                                                                              #
 ################################################################################
 
 # Script Starts

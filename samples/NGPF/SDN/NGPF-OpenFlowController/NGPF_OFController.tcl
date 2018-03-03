@@ -1,12 +1,8 @@
 #!/usr/bin/tclsh
 ################################################################################
-# Version 1.0    $Revision: 1 $                                                #
 #                                                                              #
-#    Copyright © 1997 - 2016 by IXIA                                           #
+#    Copyright © 1997 - 2018 by IXIA                                           #
 #    All Rights Reserved.                                                      #
-#                                                                              #
-#    Revision Log:                                                             #
-#    07/07/2016 - Sarabjeet Kaur - created sample                              #
 #                                                                              #
 ################################################################################
 
@@ -54,10 +50,6 @@
 #    It will create one OF Controller topology , it will start the emulation   #       
 #    and then it will retrieve and display few statistics .                    #
 #    It will send learned info trigger  for specified match crteria            #
-# Ixia Software:                                                               #
-#    IxOS      8.10 EA                                                         #
-#    IxNetwork 8.10 EA                                                         #
-#                                                                              #
 ################################################################################
 
 ################################################################################
