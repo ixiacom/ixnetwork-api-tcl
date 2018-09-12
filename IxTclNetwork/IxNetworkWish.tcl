@@ -1,4 +1,4 @@
-# Copyright © 1997 - 2017 by IXIA
+# Copyright 1997-2018 by IXIA Keysight
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"),
