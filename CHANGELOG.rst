@@ -6,3 +6,10 @@ IxNetwork TCL API Changelog
 ----
 
 API library release corresponding to IxNetwork 8.40 EA.
+
+
+**8.50**
+
+----
+
+API library release corresponding to IxNetwork 8.50 EA.
