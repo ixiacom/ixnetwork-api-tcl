@@ -13,3 +13,5 @@ API library release corresponding to IxNetwork 8.40 EA.
 ----
 
 API library release corresponding to IxNetwork 8.50 EA.
+This version supports both IxNetwork Windows and Linux API Server.
+Connections to IxNetwork Windows on the REST port or to Linux API Server are secured.
