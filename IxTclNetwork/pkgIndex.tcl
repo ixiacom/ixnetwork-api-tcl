@@ -1,4 +1,4 @@
-# Copyright © 1997 - 2017 by IXIA
+# Copyright 1997-2018 by IXIA Keysight
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"),
@@ -18,25 +18,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#############################################################################################
-#
-# pkgIndex.tcl
-#
-#############################################################################################
+set env(IXTCLNETWORK_8.50.1501.9) [file dirname [info script]]
 
-set env(IXTCLNETWORK_8.40.1124.8) [file dirname [info script]]
-
-package ifneeded IxTclNetwork 8.40.1124.8 {
-    package provide IxTclNetwork 8.40.1124.8
-
+package ifneeded IxTclNetwork 8.50.1501.9 {
+    package provide IxTclNetwork 8.50.1501.9
     namespace eval ::ixTclNet {}
     namespace eval ::ixTclPrivate {}
+    namespace eval ::IxNet {}
 
-    foreach fileItem1 [glob -nocomplain $env(IXTCLNETWORK_8.40.1124.8)/Generic/*.tcl] {
+    foreach fileItem1 [glob -nocomplain $env(IXTCLNETWORK_8.50.1501.9)/Generic/*.tcl] {
         if {![file isdirectory $fileItem1]} {
             source  $fileItem1
         }
     }
 
-    source [file join $env(IXTCLNETWORK_8.40.1124.8) IxTclNetwork.tcl]
+    if {[info command bgerror]==""} {
+        # Avoid TK popups from background errors.
+        proc bgerror {args} {
+            puts "$args"
+        }
+    }
+
+    source [file join $env(IXTCLNETWORK_8.50.1501.9) IxTclNetwork.tcl]
+  
 }
+
