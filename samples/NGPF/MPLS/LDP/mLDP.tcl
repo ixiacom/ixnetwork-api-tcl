@@ -1,7 +1,7 @@
 #!/usr/bin/tclsh
 ################################################################################
 #                                                                              #
-#    Copyright © 1997 - 2018 by IXIA                                           #
+#    Copyright 1997 - 2018 by IXIA Keysight                                    #
 #    All Rights Reserved.                                                      #
 #                                                                              #
 ################################################################################
@@ -70,9 +70,9 @@ puts "!!! Test Script Starts !!!"
 
 # Edit this variables values to match your setup
 namespace eval ::ixia {
-    set ixTclServer 10.216.108.100
-    set ixTclPort   8009
-    set ports       {{10.216.108.53 3 11} { 10.216.108.53 3 12}}
+    set ixTclServer 10.39.50.155
+    set ixTclPort   8332
+    set ports       {{10.39.43.154 4 1} { 10.39.43.154 4 2}}
 }
 
 puts "Load ixNetwork Tcl API package"
@@ -177,7 +177,7 @@ ixNet commit
 set ldp1 [ixNet getList $ip1 ldpBasicRouter]
 set ldp2 [ixNet getList $ip2 ldpBasicRouter]
 
-puts "Enabling P2MP capabilty for mLDP"
+puts "Enabling P2MP capability for mLDP"
 set capability1 [ixNet getAttr $ldp1 -enableP2MPCapability]
 set capability2 [ixNet getAttr $ldp2 -enableP2MPCapability]
 
@@ -202,71 +202,71 @@ ixNet setMultiAttribute $ldp2 -leafRangesCountV4 1
 ixNet commit
 
 puts "Changing Root Address in Root Ranges behind Topology 1"
-set rootRange_rootAddrCount [ixNet getAttribute $ldp1/rootRanges -rootAddress]
+set rootRange_rootAddrCount [ixNet getAttribute $ldp1/ldpRootRangeV4 -rootAddress]
 ixNet setMultiAttribute $rootRange_rootAddrCount/counter -start 15.1.1.1
 ixNet commit
 
 puts "Changing Root Address in Leaf Ranges behind Topology 2"
-set leafRange_rootAddrCount [ixNet getAttribute $ldp2/leafRanges -rootAddress]
+set leafRange_rootAddrCount [ixNet getAttribute $ldp2/ldpLeafRangeV4 -rootAddress]
 ixNet setMultiAttribute $leafRange_rootAddrCount/counter -start 15.1.1.1
 ixNet commit
 
 puts "Configuring 2 Opaque TLVs for Root Ranges"	
-set rootRange_numberOfTLV [ixNet setAttribute $ldp1/rootRanges -numberOfTLVs 2]
+set rootRange_numberOfTLV [ixNet setAttribute $ldp1/ldpRootRangeV4 -numberOfTLVs 2]
 ixNet commit
 puts "Configuring 2 Opaque TLVs for Leaf Ranges"
-set leafRange_numberOfTLV [ixNet setAttribute $ldp2/leafRanges -numberOfTLVs 2]
+set leafRange_numberOfTLV [ixNet setAttribute $ldp2/ldpLeafRangeV4 -numberOfTLVs 2]
 ixNet commit
 
 puts "Configuring 2nd Opaque TLV as Type:2 for Root Ranges"
-set type_2_1 [ixNet getAttribute $ldp1/rootRanges/ldpTLVList:2 -type]
+set type_2_1 [ixNet getAttribute $ldp1/ldpRootRangeV4/ldpTLVList:2 -type]
 ixNet setMultiAttribute $type_2_1/singleValue -value 2
 ixNet commit
 puts "Configuring 2nd Opaque TLV as Type:2 for Leaf Ranges"
-set type_2_2 [ixNet getAttribute $ldp2/leafRanges/ldpTLVList:2 -type]
+set type_2_2 [ixNet getAttribute $ldp2/ldpLeafRangeV4/ldpTLVList:2 -type]
 ixNet setMultiAttribute $type_2_2/singleValue -value 2
 ixNet commit
 
 puts "Changing 1st Opaque TLV Value for Root Ranges"
-set value_2_1 [ixNet getAttribute $ldp1/rootRanges/ldpTLVList:1 -value]
+set value_2_1 [ixNet getAttribute $ldp1/ldpRootRangeV4/ldpTLVList:1 -value]
 ixNet setMultiAttribute $value_2_1/singleValue -value 00000066
 ixNet commit
 puts "Changing 1st Opaque TLV Value for Leaf Ranges"
-set value_2_2 [ixNet getAttribute $ldp2/leafRanges/ldpTLVList:1 -value]
+set value_2_2 [ixNet getAttribute $ldp2/ldpLeafRangeV4/ldpTLVList:1 -value]
 ixNet setMultiAttribute $value_2_2/singleValue -value 00000066
 ixNet commit
 
 puts "Changing 2nd Opaque TLV Increment for Root Ranges"
-set increment_2_1 [ixNet getAttribute $ldp1/rootRanges/ldpTLVList:2 -increment]
+set increment_2_1 [ixNet getAttribute $ldp1/ldpRootRangeV4/ldpTLVList:2 -increment]
 ixNet setMultiAttribute $type_2_1/singleValue -value 0000000000000010
 ixNet commit
 puts "Changing 2nd Opaque TLV Increment for Leaf Ranges"
-set increment_2_2 [ixNet getAttribute $ldp2/leafRanges/ldpTLVList:2 -increment]
+set increment_2_2 [ixNet getAttribute $ldp2/ldpLeafRangeV4/ldpTLVList:2 -increment]
 ixNet setMultiAttribute $type_2_2/singleValue -value 0000000000000010
 ixNet commit
 
 puts "Changing IPv4 Group Addresses under Leaf Ranges behind Egress Router"
-set groupAddressV4 [ixNet getAttribute $ldp2/leafRanges -groupAddressV4]
+set groupAddressV4 [ixNet getAttribute $ldp2/ldpLeafRangeV4 -groupAddressV4]
 ixNet setMultiAttribute $groupAddressV4/singleValue -value 225.0.1.1
 ixNet commit
 
 puts "Changing IPv6 Group Addresses under Leaf Ranges behind Egress Router"
-set groupAddressV6 [ixNet getAttribute $ldp2/leafRanges -groupAddressV6]
+set groupAddressV6 [ixNet getAttribute $ldp2/ldpLeafRangeV4 -groupAddressV6]
 ixNet setMultiAttribute $groupAddressV6/singleValue -value ff15:0:1::
 ixNet commit
 
 puts "Changing IPv4 Source Addresses under Root Ranges behind Ingress Router"
-set sourceAddressV4 [ixNet getAttribute $ldp1/rootRanges -sourceAddressV4]
+set sourceAddressV4 [ixNet getAttribute $ldp1/ldpRootRangeV4 -sourceAddressV4]
 ixNet setMultiAttribute $sourceAddressV4/singleValue -value 5.1.1.1
 ixNet commit
 
 puts "Changing IPv6 Source Addresses under Root Ranges behind Ingress Router"
-set sourceAddressV6 [ixNet getAttribute $ldp1/rootRanges -sourceAddressV6]
+set sourceAddressV6 [ixNet getAttribute $ldp1/ldpRootRangeV4 -sourceAddressV6]
 ixNet setMultiAttribute $sourceAddressV6/singleValue -value 6001:1::1
 ixNet commit
 
 puts "Changing Group Addresses count under Leaf Ranges behind Egress Router"
-set groupCountPerLsp [ixNet getAttribute $ldp2/leafRanges -groupCountPerLsp]
+set groupCountPerLsp [ixNet getAttribute $ldp2/ldpLeafRangeV4 -groupCountPerLsp]
 ixNet setMultiAttribute $groupCountPerLsp/singleValue -value 5
 ixNet commit
 
@@ -316,16 +316,12 @@ puts "***************************************************"
 # 5. Change the label, number of LSP Count And apply changes On The Fly (OTF). #
 ################################################################################
 
-puts "Changing LSP Count per root On The Fly behind Ingress Router on Topology 1"
-set lsp1 [ixNet getAttribute $ldp1/rootRanges -lspCountPerRoot]
-ixNet setMultiAttribute $lsp1/singleValue -value 5
-
 puts "Changing LSP Count per root On The Fly behind Egress Router on Topology 2"
-set lsp2 [ixNet getAttribute $ldp2/leafRanges -lspCountPerRoot]
+set lsp2 [ixNet getAttribute $ldp2/ldpLeafRangeV4 -lspCountPerRoot]
 ixNet setMultiAttribute $lsp2/singleValue -value 5
 
 puts "Changing Label value  On The Fly behind Egress Router on Topology 2"
-set label [ixNet getAttribute $ldp2/leafRanges -labelValueStart]
+set label [ixNet getAttribute $ldp2/ldpLeafRangeV4 -labelValueStart]
 ixNet setMultiAttribute $label/singleValue -value 666
 ixNet commit 
 
@@ -356,7 +352,7 @@ puts "***************************************************"
 ################################################################################
 # 7. Configure L2-L3 traffic 
 ################################################################################
-puts "Congfiguring L2-L3 Traffic Item"
+puts "Configuring L2-L3 Traffic Item"
 set ldp1 [lindex [ixNet remapIds $ldp1] 0]
 set ldp2 [lindex [ixNet remapIds $ldp2] 0]
 
@@ -369,12 +365,12 @@ ixNet commit
 
 set trafficItem1 [lindex [ixNet remapIds $trafficItem1] 0]
 set endpointSet1 [ixNet add $trafficItem1 "endpointSet"]
-set source       [list $ldp1/rootRanges]
+set source       [list $ldp1/ldpRootRangeV4]
 
 ixNet setMultiAttribute $endpointSet1\
     -name                  "EndpointSet-1"\
     -scalableSources       [list]\
-    -multicastReceivers    [list [list $ldp2/leafRanges 0 0 0]]\
+    -multicastReceivers    [list [list $ldp2/ldpLeafRangeV4 0 0 0]]\
     -scalableDestinations  [list]\
     -ngpfFilters           [list]\
     -trafficGroups         [list]\
@@ -402,7 +398,7 @@ set endpointSet2 [ixNet add $trafficItem2 "endpointSet"]
 ixNet setMultiAttribute $endpointSet2\
     -name                  "EndpointSet-2"\
     -scalableSources       [list]\
-    -multicastReceivers    [list [list $ldp2/leafRanges 0 0 0]]\
+    -multicastReceivers    [list [list $ldp2/ldpLeafRangeV6 0 0 0]]\
     -scalableDestinations  [list]\
     -ngpfFilters           [list]\
     -trafficGroups         [list]\
