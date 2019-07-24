@@ -1,6 +1,6 @@
 ################################################################################
 #                                                                              #
-#    Copyright 1997 - 2018 by IXIA Keysight                                    #
+#    Copyright 1997 - 2019 by IXIA  Keysight                                   #
 #    All Rights Reserved.                                                      #
 #                                                                              #
 ################################################################################
@@ -882,7 +882,6 @@ proc checkAllProtocolStats {portList protocol stat {exactMatch 0}} {
 # PURPOSE    : Enable and Start capture on given ports in argument.
 # PARAMETERS : vPorts - List of Vitrual ports on which we have to start capture.
 #              args-List of other ports on which we wan to start capture.
-#Author      :Darshan T
 # RETURN     : (BOOL)    - 0 for Pass ~ 1 for Fail.
 #-------------------------------------------------------------------------------
 proc enableAndStartCapture {vPorts} {

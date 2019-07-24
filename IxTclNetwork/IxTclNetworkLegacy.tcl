@@ -1,4 +1,4 @@
-# Copyright 1997-2018 by IXIA Keysight
+# Copyright 1997-2019 by IXIA Keysight
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"),
@@ -34,7 +34,7 @@ namespace eval ::IxNetLegacy {
 	variable _connectTokens {}
 	variable _OK {::ixNet::OK}
 	variable _buffer {}
-	variable _packageVersion "8.50.1501.9"
+	variable _packageVersion "9.00.1915.16"
 	variable _transportType "TclSocket"
 	variable STARTINDEX "<"
 	variable STOPINDEX ">"
@@ -639,6 +639,17 @@ proc ::ixNetLegacy {args} {
             if {[info exists argArray(-connectTimeout)]} {
 				append options "-connectTimeout $argArray(-connectTimeout) "
 			}
+
+ 			if {[info exists argArray(-applicationVersion)]} {
+				append options "-applicationVersion $argArray(-applicationVersion) "
+			}
+			if {[info exists argArray(-persistentApplicationVersion)]} {
+				append options "-persistentApplicationVersion $argArray(-persistentApplicationVersion) "
+			}
+			if {[info exists argArray(-forceVersion)]} {
+				append options "-forceVersion $argArray(-forceVersion) "
+			}
+
 			if {[info exists argArray(-sessionId)]} {
 				append options "-sessionId $argArray(-sessionId) "
 				set sessionId $argArray(-sessionId)
