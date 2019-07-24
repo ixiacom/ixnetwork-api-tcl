@@ -12,13 +12,13 @@ To install the version in `github <https://github.com/ixiacom/ixnetwork-api-tcl>
 
 Documentation
 =============
-For general language documentation of IxNetwork API see the `Low Level API Guide <http://downloads.ixiacom.com/library/user_guides/ixnetwork/8.50/EA_8.50_Rev_A/QuickReferenceGuides/LLAPI_reference_guide.pdf>`_ and the `IxNetwork API Help <http://downloads.ixiacom.com/library/user_guides/ixnetwork/8.50/EA_8.50_Rev_A/IxNetwork_HTML5/IxNetwork.htm>`_.
+For general language documentation of IxNetwork API see the `Low Level API Guide <http://downloads.ixiacom.com/library/user_guides/ixnetwork/9.00/EA_9.00_Rev_A/QuickReferenceGuides/LLAPI_reference_guide.pdf>`_ and the `IxNetwork API Help <http://downloads.ixiacom.com/library/user_guides/ixnetwork/9.00/EA_9.00_Rev_A/IxNetwork_HTML5/IxNetwork.htm>`_.
 This will require a login to `Ixia Support <https://support.ixiacom.com/user-guide>`_ web page.
 
 
 IxNetwork API server / TCL Support
 ==================================
-IxTclNetwork API lib 8.50.1501.9 supports:
+IxTclNetwork API lib 9.00.1915.16 supports:
 
 * Tcl 8.5 and 8.6
 * IxNetwork Windows API server 8.40+

@@ -1,6 +1,6 @@
 ################################################################################
 #                                                                              #
-#    Copyright 1997 - 2018 by IXIA Keysight                                    #
+#    Copyright 1997 - 2019 by IXIA  Keysight                                   #
 #    All Rights Reserved.                                                      #
 #                                                                              #
 ################################################################################
@@ -43,8 +43,6 @@
 ################################################################################
 ################################################################################
 #File Name  :utils.rsvp.tcl
-#Author     :Animesh Roy
-#Reviwer    :Suvendu Mazumder
 #Purpose    :Utility file for RSVP-GR Automation
 #procs      :
 #           1.arrange

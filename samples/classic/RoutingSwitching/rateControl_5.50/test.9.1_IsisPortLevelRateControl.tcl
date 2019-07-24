@@ -1,6 +1,6 @@
 ################################################################################
 #                                                                              #
-#    Copyright 1997 - 2018 by IXIA Keysight                                    #
+#    Copyright 1997 - 2019 by IXIA  Keysight                                   #
 #    All Rights Reserved.                                                      #
 #                                                                              #
 ################################################################################
@@ -45,7 +45,6 @@
 source $env(IXNETWORK_SAMPLE_SCRIPT_DIR)/IxNetwork/Classic/Tcl/TestRun/config.tcl
 #------------------------------------------------------------------------------
 # Name           : test.9.1_IsisPortLevelRateControl.tcl
-# Author         : Jayasri Dhar
 # Purpose        : Automate ISIS PORT Rate Control Functionality
 #                  Rate Control Interval (ms) & LSPs per Interval Functionality
 #

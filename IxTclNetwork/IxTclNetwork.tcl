@@ -1,4 +1,4 @@
-# Copyright 1997-2018 by IXIA Keysight
+# Copyright 1997-2019 by IXIA Keysight
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"),
@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 namespace eval ::IxNet {
-    variable _packageVersion "8.50.1501.9"
+    variable _packageVersion "9.00.1915.16"
     variable _packageDirectory [file dirname [info script]]
     variable _transportType {}
     variable _NoApiKey {00000000000000000000000000000000}
@@ -119,6 +119,7 @@ namespace eval ::IxNet {
                 set ::IxNet::_socket {}
             }
             if {!$usingDefaultPorts} {
+                set err [::IxNet::_TclCompatibilityError $hostname $err]
                 error "Unable to connect to ${hostname}:${port}. Error: $err."
             }
         }
@@ -140,6 +141,51 @@ namespace eval ::IxNet {
         }
         ::IxNet::Log "Using transport $_transport"
         return $_transport
+    }
+
+    proc _TclCompatibilityError {{ip ""} {err ""}} {
+        # By default TCL 8.5 socket does not support IPV6 socket and throws an error
+        # 1) "couldn't open socket: invalid argument"
+        # 2) "Missing host part"
+        #package req ip
+            
+        if {$::tcl_version < 8.6} {
+            set errMsgList [list   \
+                "invalid argument" \
+                "missing host part"\
+            ]
+            ::IxNet::Log "debug" "Tcl $::tcl_version does'nt support ipv6 socket"
+            # parse ipv6 address
+            set isIpv6    0
+            set addrBytes [split $ip ":"]
+            if {([llength $addrBytes] > 1) && ([llength $addrBytes] < 9)} {
+                foreach b $addrBytes {
+                    set strlen [string length $b]
+                    if {$strlen == 0} {
+                       continue
+                    } elseif {[string length $b] <=4} {
+                        if {(([regexp {[*a-f]} $b] == 1) || ([regexp {[*0-9]} $b] == 1)) &&
+                            ([regexp {[*g-z]} $b] == 0)} {
+                            set isIpv6 1
+                        } else {
+                           set isIpv6 0
+                           break
+                        }
+                    } else {
+                        set isIpv6 0
+                        break
+                    }
+                }
+            }
+
+            foreach errmsg $errMsgList {
+                if {($isIpv6 == 1) &&
+                    ([regexp -nocase $errmsg $err] == 1)} {
+                    set err "$err (or Tcl $::tcl_version does'nt support ipv6 socket)"
+                }
+            }
+        }
+        return $err
     }
 
     proc SetDebug {debugFlag} {

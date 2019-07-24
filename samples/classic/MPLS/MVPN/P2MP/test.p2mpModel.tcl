@@ -2,7 +2,7 @@
 
 ################################################################################
 #                                                                              #
-#    Copyright 1997 - 2018 by IXIA Keysight                                    #
+#    Copyright 1997 - 2019 by IXIA  Keysight                                   #
 #    All Rights Reserved.                                                      #
 #                                                                              #
 ################################################################################
@@ -45,11 +45,9 @@
 ################################################################################
 
 ################################################################################
-#File Name  :test.p2mpDemo.tcl
-#Author     :Manodipto Ghose
 #Purpose    :Test Basic P2MP protocols with IxNetwork
-#
 ################################################################################
+
 source $env(IXNETWORK_SAMPLE_SCRIPT_DIR)/IxNetwork/Classic/Tcl/TestRun/config.tcl
 
 # Test case Starts

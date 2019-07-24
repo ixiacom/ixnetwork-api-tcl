@@ -1,4 +1,4 @@
-# Copyright 1997-2018 by IXIA Keysight
+# Copyright 1997-2019 by IXIA Keysight
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"),
@@ -18,15 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-set env(IXTCLNETWORK_8.50.1501.9) [file dirname [info script]]
+set env(IXTCLNETWORK_9.00.1915.16) [file dirname [info script]]
 
-package ifneeded IxTclNetwork 8.50.1501.9 {
-    package provide IxTclNetwork 8.50.1501.9
+package ifneeded IxTclNetwork 9.00.1915.16 {
+    package provide IxTclNetwork 9.00.1915.16
     namespace eval ::ixTclNet {}
     namespace eval ::ixTclPrivate {}
     namespace eval ::IxNet {}
 
-    foreach fileItem1 [glob -nocomplain $env(IXTCLNETWORK_8.50.1501.9)/Generic/*.tcl] {
+    foreach fileItem1 [glob -nocomplain $env(IXTCLNETWORK_9.00.1915.16)/Generic/*.tcl] {
         if {![file isdirectory $fileItem1]} {
             source  $fileItem1
         }
@@ -39,7 +39,7 @@ package ifneeded IxTclNetwork 8.50.1501.9 {
         }
     }
 
-    source [file join $env(IXTCLNETWORK_8.50.1501.9) IxTclNetwork.tcl]
+    source [file join $env(IXTCLNETWORK_9.00.1915.16) IxTclNetwork.tcl]
   
 }
 

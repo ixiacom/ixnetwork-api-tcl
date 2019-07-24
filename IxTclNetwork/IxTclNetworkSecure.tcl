@@ -1,4 +1,4 @@
-# Copyright 1997-2018 by IXIA Keysight
+# Copyright 1997-2019 by IXIA Keysight
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"),
@@ -40,7 +40,7 @@ namespace eval ::IxNetSecure {
     variable _tclResult {}
     variable _evalResult {}
     variable _buffer {}
-    variable _packageVersion "8.50.1501.9"
+    variable _packageVersion "9.00.1915.16"
     variable _prefix {}
     variable _packageDirectory [file dirname [info script]]
     variable _transportType "WebSocket"
@@ -105,7 +105,11 @@ namespace eval ::IxNetSecure {
         }
         dict set result verb $verb
         dict set result port $port
-        dict set result hostname $hostname
+        if {[regexp {\[(.*)\]} $hostname full_match exact_match]} {
+            dict set result hostname $exact_match
+        } else {
+            dict set result hostname $hostname
+        }
         if {$verb == "https"} {
             dict set result socket ::tls::socket
         } else {
@@ -114,7 +118,7 @@ namespace eval ::IxNetSecure {
         return $result
     }
     proc _getUrl {url args} {
-        set result [eval ::IxNetSecure::_getUrlResult $url $args]
+        set result [eval ::IxNetSecure::_getUrlResult "\{$url\}" $args]
         set data   [dict get $result data]
         if {[dict exists $result error]} {
             error [dict get $result error]
@@ -171,6 +175,7 @@ namespace eval ::IxNetSecure {
         variable _packageVersion
         set parsedUrl [_parseUrl $url]
         set url [dict get $parsedUrl url]
+        set hostname [dict get $parsedUrl hostname]
         set result {}
         set token {}
         set unregisterRequired 0
@@ -185,13 +190,18 @@ namespace eval ::IxNetSecure {
             }
         }
         if { [catch {
-            set command "::http::geturl $url $args"
+            set command "::http::geturl \{$url\} $args"
             if {$_headers != {} } {
                 if {[string first "-type" $command] == -1} { 
                     set headers $_headers
                 } else {
                     set headers "X-Api-Key [_tryGetAttr $_headers X-Api-Key $::IxNetSecure::_NoApiKey]"
                     dict set headers "IxNetwork-Lib" "IxNetwork tcl client v.$_packageVersion"
+                }
+                if {[_ip_encloser $hostname]} {
+                    dict set headers "Host" "\[${hostname}\]"
+                } else {
+                    dict set headers "Host" ${hostname}
                 }
                 set command "$command -headers [list $headers]"
             }
@@ -212,6 +222,7 @@ namespace eval ::IxNetSecure {
                 ::http::unregister [dict get $parsedUrl verb]
             }
             ::IxNetSecure::Log "debug" "HTTP::error $err"
+            set err [::IxNet::_TclCompatibilityError $hostname $err]
             error "CommunicationError: $err"
         }
         dict set result url $url
@@ -232,7 +243,7 @@ namespace eval ::IxNetSecure {
                         ::http::unregister [dict get $parsedUrl verb]
                     }
                     unset result
-                    return [eval ::IxNetSecure::_getUrlResult $url $args]
+                    return [eval ::IxNetSecure::_getUrlResult "\{$url\}" $args]
                 }
             }
             dict set result data [::http::data $token]
@@ -250,7 +261,7 @@ namespace eval ::IxNetSecure {
             }
 
             if {$head == 1 && [dict get $result status_code] == 405 } {
-                dict set $result status_code 204
+                dict set result status_code 204
             }
 
             if { [string index [dict get $result status_code] 0] != "2"} {
@@ -293,11 +304,15 @@ namespace eval ::IxNetSecure {
         if { $argArray(-port) == "auto"} {
             set params [list "https" 443]
         } else {
-            set params [list "https" $argArray(-port) "http" $argArray(-port)]
+            set params [list "http" $argArray(-port) "https" $argArray(-port)]
         }
         foreach {verb port} $params {
             ::IxNetSecure::Log "debug" "trying connection to $verb port $port"
-            set url "${verb}://$argArray(-ipAddress):${port}/api/v1/sessions"
+            if {[::IxNetSecure::_ip_encloser ${argArray(-ipAddress)}]} {
+                set url "${verb}://\[$argArray(-ipAddress)\]:${port}/api/v1/sessions"
+            } else {
+                set url "${verb}://$argArray(-ipAddress):${port}/api/v1/sessions"
+            }
             if {$verb == "https" && [catch {_checkTlsHandshake $argArray(-ipAddress) $port}]} {
                 continue
             }
@@ -463,12 +478,13 @@ namespace eval ::IxNetSecure {
     }
 
     proc _stopSession {sessionUrl} {
+        variable _connectionInfo
         catch { ::IxNetSecure::_getUrl "${sessionUrl}/operations/stop" -method POST }
         # if above return timeout (ixnet taking longer to stop) still wati to execute _waitForState
         # to allow gracefull shutdown (Windows)
         catch { ::IxNetSecure::_waitForState $sessionUrl "stopped" }
         # if above failed still try to DELETE session (forcefully)
-        _deleteSession $sessionUrl
+        _deleteSession ${sessionUrl}
     }
     proc _clearSessions {inputArgs} {
         upvar $inputArgs argArray
@@ -569,7 +585,7 @@ namespace eval ::IxNetSecure {
         set _buffer {}
     }
 
-    proc _close {{errorMessage {}}} {
+    proc _close {{errorMessage {}} {sendStop 1}} {
         variable _connectionInfo
         variable _webSocket
         variable _headers
@@ -585,8 +601,11 @@ namespace eval ::IxNetSecure {
         }
 
         if {$_connectionInfo != {}} {
-            if { [dict exists $_connectionInfo closeServerOnDisconnect] && [dict exists $_connectionInfo sessionUrl] && [_parseAsBool [dict get $_connectionInfo closeServerOnDisconnect]] } {
-                    _stopSession [dict get $_connectionInfo sessionUrl]
+            if {[dict exists $_connectionInfo closeServerOnDisconnect] &&
+                [dict exists $_connectionInfo sessionUrl] &&
+                [_parseAsBool [dict get $_connectionInfo closeServerOnDisconnect]] &&
+                ($sendStop == 1)} {
+                 _stopSession [dict get $_connectionInfo sessionUrl]
             }
 
             if { [dict exists $_connectionInfo verb] && [dict get $_connectionInfo verb] == "https" } {
@@ -765,7 +784,11 @@ namespace eval ::IxNetSecure {
                 error "A connection has already been established to [_tryGetAttr $_connectionInfo hostname]:[_tryGetAttr $_connectionInfo port].\
                     In order to query ${argArray(-ipAddress)}:${argArray(-port)} you must first disconnect."
             }
-            set baseURL "https://${argArray(-ipAddress)}:${argArray(-port)}/api/v1/sessions"
+            if {[::IxNetSecure::_ip_encloser ${argArray(-ipAddress)}]} {
+                set baseURL "https://\[${argArray(-ipAddress)}\]:${argArray(-port)}/api/v1/sessions"    
+            } else {
+                set baseURL "https://${argArray(-ipAddress)}:${argArray(-port)}/api/v1/sessions"
+            }
             set port $argArray(-port)
         }
         if {[catch {
@@ -810,7 +833,7 @@ namespace eval ::IxNetSecure {
         
         set fid [open $filename RDONLY]
         fconfigure $fid -buffering full -encoding binary -translation binary
-        set data [::IxNetSecure::_getUrl "[_getRestUrl]/files?filename=[::http::formatQuery ${localFilename}]" -type "application/octet-stream" -querychannel $fid]
+        set data [::IxNetSecure::_getUrl "[_getRestUrl]/files?[::http::formatQuery filename ${localFilename}]" -type "application/octet-stream" -querychannel $fid]
         close $fid
 
         return [::IxNetSecure::Send "ixNet${BIN2}readFrom${BIN2}${remoteFilename}${BIN2}-ixNetRelative"]
@@ -827,9 +850,18 @@ namespace eval ::IxNetSecure {
         set data [::IxNetSecure::_getUrl "[_getRestUrl]/files"]
         set absolute [dict get [_jsonToDict $data] absolute]
         set remoteFilename [string map {"\\" "/"} "$absolute/$filename"]
-        set data [::IxNetSecure::_getUrl "[_getRestUrl]/files?filename=[::http::formatQuery ${filename}]" -type "application/octet-stream" -query "0"]
+        set data [::IxNetSecure::_getUrl "[_getRestUrl]/files?[::http::formatQuery filename ${filename}]" -type "application/octet-stream" -query "0"]
         return [::IxNetSecure::Send "ixNet${BIN2}writeTo${BIN2}${remoteFilename}${BIN2}-ixNetRelative${BIN2}-remote${BIN2}${localFilename}${BIN2}-overwrite"]
     }
+
+    proc _ip_encloser { ip_address } {
+        if {[string match "*:*" $ip_address]} {
+            return 1
+        } else {
+            return 0
+        }
+    }
+
     proc Connect {args} {
         upvar $args argArray
         
@@ -848,7 +880,12 @@ namespace eval ::IxNetSecure {
         set restPrefix [dict get $_connectionInfo verb]
         set wsPrefix [dict get $_connectionInfo wsVerb]
         set port [dict get $_connectionInfo port]
-        set rootUrlPrefix "${restPrefix}://${argArray(-ipAddress)}:${port}/api/v1/sessions"
+        if {[::IxNetSecure::_ip_encloser ${argArray(-ipAddress)}]} {
+            set rootUrlPrefix "${restPrefix}://\[${argArray(-ipAddress)}\]:${port}/api/v1/sessions"
+        } else {
+            set rootUrlPrefix "${restPrefix}://${argArray(-ipAddress)}:${port}/api/v1/sessions"
+        }
+        
         # create a session if a valid sessionId has not been specified
         if { [catch {
             if {$argArray(-sessionId) < 1 && $argArray(-serverusername) == ""} {
@@ -919,6 +956,7 @@ namespace eval ::IxNetSecure {
 
             # wait connectTimeout seconds for the session to go active
             if {[catch {_waitForState $_sessionUrl "active" $argArray(-connectTimeout)}]} {
+                _deleteSession ${_sessionUrl}
                 error "IxNetwork instance ${_sessionId} did not start within $argArray(-connectTimeout) seconds."
             }
 
@@ -927,7 +965,11 @@ namespace eval ::IxNetSecure {
             }
 
             set _restUrl "${_sessionUrl}/ixnetwork"
-            set _wsUrl "${wsPrefix}://${argArray(-ipAddress)}:${port}/ixnetworkweb/ixnrest/ws/api/v1/sessions/${_sessionId}/ixnetwork/globals/ixnet?closeServerOnDisconnect=${argArray(-closeServerOnDisconnect)}&clientType=[::http::formatQuery ${argArray(-clientType)}]&clientUsername=[::http::formatQuery ${argArray(-clientusername)}]"
+            if {[::IxNetSecure::_ip_encloser ${argArray(-ipAddress)}]} {
+                set _wsUrl "${wsPrefix}://\[${argArray(-ipAddress)}\]:${port}/ixnetworkweb/ixnrest/ws/api/v1/sessions/${_sessionId}/ixnetwork/globals/ixnet?closeServerOnDisconnect=${argArray(-closeServerOnDisconnect)}&[::http::formatQuery clientType ${argArray(-clientType)}]&[::http::formatQuery clientUsername ${argArray(-clientusername)}]"
+            } else {
+                set _wsUrl "${wsPrefix}://${argArray(-ipAddress)}:${port}/ixnetworkweb/ixnrest/ws/api/v1/sessions/${_sessionId}/ixnetwork/globals/ixnet?closeServerOnDisconnect=${argArray(-closeServerOnDisconnect)}&[::http::formatQuery clientType ${argArray(-clientType)}]&[::http::formatQuery clientUsername ${argArray(-clientusername)}]"
+            }
             dict set _connectionInfo restUrl $_restUrl
             dict set _connectionInfo wsUrl $_wsUrl
             ::IxNetSecure::Log "debug" "Connection Info: $_connectionInfo"
@@ -1024,8 +1066,11 @@ namespace eval ::IxNetSecure {
         if {[::IxNetSecure::IsConnected] == 0} {
                 ::IxNetSecure::_createHeaders
         }
-        
-        set url "https://$argArray(-ipAddress):$argArray(-port)/api/v1/auth/session"
+        if {[::IxNetSecure::_ip_encloser ${argArray(-ipAddress)}]} {
+            set url "https://\[$argArray(-ipAddress)\]:$argArray(-port)/api/v1/auth/session"
+        } else {
+            set url "https://$argArray(-ipAddress):$argArray(-port)/api/v1/auth/session"
+        }
         set payload "{\"username\": \"$argArray(-username)\", \"password\": \"$argArray(-password)\"}"
         
         if { [catch {
@@ -1066,7 +1111,9 @@ namespace eval ::IxNetSecure {
    }
     proc Disconnect {} {
         if {[::IxNetSecure::IsConnected]} {
-            return [::IxNetSecure::_close]
+            set errmsg   {}
+            set sendStop 0
+            return [::IxNetSecure::_close $errmsg $sendStop]
         } else {
             _cleanupEnvironment
             return "not connected"
@@ -1156,7 +1203,7 @@ namespace eval ::IxNetSecure {
                         error "unable to create file $filename $errorMessage"
                     }
                     fconfigure $fid -translation binary
-                    set data [::IxNetSecure::_getUrl "[_getRestUrl]/files?filename=[::http::formatQuery ${remoteFilename}]" -channel $fid -binary 1]
+                    set data [::IxNetSecure::_getUrl "[_getRestUrl]/files?[::http::formatQuery filename ${remoteFilename}]" -channel $fid -binary 1]
                     close $fid
                 }
                 "009" {
